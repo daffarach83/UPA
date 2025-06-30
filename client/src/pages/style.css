@@ -1,0 +1,144 @@
+/* styles.css */
+
+.login-page {
+    min-height: 100vh;
+    background-color: #B2E4E0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.dashboard-page {
+    background-color: #ffffff; /* Light grey for dashboard */
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* # Login && Register */
+.login-container {
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 800px;
+    height: 500px;
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-wrapper input {
+    width: 100%;
+    padding-right: 40px; /* to make space for the icon */
+  }
+  
+  .toggle-password-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #666;
+  }  
+
+.left {
+    background-color: #A3C7C5; /* Darker blue for the left side */
+    flex: 1;
+}
+
+.right {
+    background-color: #FFFFFF; /* White for the right side */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px; */
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+}
+
+button {
+    background-color: #A3C7C5; /* Button color */
+    color: white;
+    border: none;
+    width: 80px;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 30px auto 0; /* This centers the button horizontally */
+    font-size: 16px;
+    display: block; /* Ensures margin auto works properly */
+  }
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align to the left */
+    gap: 0.5rem; /* Space between the checkbox and label */
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: #374151; /* Gray text color */
+}
+
+.remember-me input {
+    margin-right: 0.5rem; /* Adds some space between the checkbox and the label */
+}
+
+.forgot-links {
+    display: flex;
+    justify-content: space-between; /* Distribute space evenly between the links */
+    font-size: 0.7rem;
+    color: #374151; /* gray-700 */
+    margin-top: 30px;
+}
+
+.forgot-links a {
+    text-decoration: none;
+    color: #000000; /* blue-500 */
+    font-weight: 400;
+}
+
+.forgot-links a:hover {
+    text-decoration: underline;
+}
+
+button:hover {
+    background-color: #92B5B3; /* Darker shade on hover */
+}
+
+/* Navbar full width */
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: linear-gradient(to right, #2196f3, #21cbf3);
+    color: white;
+    box-sizing: border-box; /* important for padding handling */
+  }
+  
+  /* PanelContainer full width */
+  .PanelContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    box-sizing: border-box;
+    padding: 0 1rem; /* optional, prevents items from touching screen edges */
+  }
