@@ -43,19 +43,27 @@ const LaporanSaya = () => {
             <span className={`text-sm font-semibold px-3 py-1 rounded-full ${getStatusColor(laporan.status)}`}>
               {laporan.status}
             </span>
-<hr className="my-4 border-gray-300" />
-<p
-  onClick={() => navigate(`/laporan/${laporan.kodeTiket}`)}
-  className="font-bold text-sm text-blue-600 hover:underline cursor-pointer text-center"
->
-  View Detail
-</p>
-
-
+          <hr className="my-4 border-gray-300" />
+          <p
+            onClick={() => navigate(`/laporan/${laporan.kodeTiket}`)}
+            className="font-bold text-sm text-blue-600 hover:underline cursor-pointer text-center"
+          >
+            View Detail
+          </p>
           </div>
         ))}
       </div>
+            {/* Centered button */}
+      <div className="flex justify-center mt-10 mb-16">
+        <button
+          onClick={() => navigate('/AddLaporan')}
+          className="w-64 bg-[#A3C7C5] hover:bg-[#8FB7B4] text-white font-semibold px-6 py-3 rounded-lg shadow-md transition transform hover:scale-105"
+        >
+          Buat Laporan
+        </button>
+      </div>
     </div>
+    
   );
 };
 

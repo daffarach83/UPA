@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 const Register = () => {
   const [email, setEmail] = useState('');
   const [fullname, setFullname] = useState('');
+  const [role, setRole] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -103,6 +104,20 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+            <div className="input">
+              <label className="block mb-1 text-sm font-medium text-gray-700">Role</label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent"
+              >
+                <option value="">Pilih Role</option>
+                <option value="Mahasiswa">Mahasiswa</option>
+                <option value="Dosen">Dosen</option>
+                <option value="Staff">Staff</option>
+              </select>
+            </div>
           </div>
           <div className="input password-input">
             <label>Password</label>

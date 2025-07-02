@@ -16,11 +16,11 @@
 
 /* # Login && Register */
 .login-container {
-    display: flex;
-    border-radius: 10px;
-    overflow: hidden;
-    width: 800px;
-    height: 500px;
+  display: flex;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 900px; /* sebelumnya 800px */
+  height: 550px; /* sebelumnya 500px */
 }
 
 .password-wrapper {

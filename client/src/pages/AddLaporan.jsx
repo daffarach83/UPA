@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FiCamera } from 'react-icons/fi';
-import Navbar from '../components/navbar';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer';
 
-const AddLaporan = ({ fullName = 'Nama User', role = 'Mahasiswa' }) => {
+const AddLaporan = () => {
   const [formData, setFormData] = useState({
     tanggal: '',
     kodeTiket: '',
@@ -13,7 +13,36 @@ const AddLaporan = ({ fullName = 'Nama User', role = 'Mahasiswa' }) => {
     image: null,
   });
 
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const [userInfo, setUserInfo] = useState({
+    fullname: '',
+    role: '',
+  });
+
+  const navigate = useNavigate();
+
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    fetch('http://localhost:5000/get_user_info', {
+      headers: { Authorization: `Bearer ${token}` },
+      credentials: 'include',
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.result === 'success') {
+          setUserInfo({
+            fullname: data.user.fullname,
+            role: data.user.role || '',
+          });
+        }
+      })
+      .catch((err) => {
+        console.error('Gagal mengambil data user:', err);
+      });
+
     const today = new Date().toISOString().split('T')[0];
     const randomKode = `TKT-${Math.floor(100000 + Math.random() * 900000)}`;
     setFormData((prev) => ({
@@ -26,7 +55,9 @@ const AddLaporan = ({ fullName = 'Nama User', role = 'Mahasiswa' }) => {
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (name === 'image') {
-      setFormData({ ...formData, image: files[0] });
+      const file = files[0];
+      setFormData({ ...formData, image: file });
+      setImagePreview(URL.createObjectURL(file));
     } else {
       setFormData({ ...formData, [name]: value });
     }
@@ -39,20 +70,26 @@ const AddLaporan = ({ fullName = 'Nama User', role = 'Mahasiswa' }) => {
     for (let key in formData) {
       data.append(key, formData[key]);
     }
-    data.append('fullName', fullName);
-    data.append('role', role);
+    data.append('fullName', userInfo.fullname);
+    data.append('role', userInfo.role);
 
-    fetch('http://localhost:5000/api/Addlaporan', {
-      method: 'POST',
-      body: data,
+  fetch('http://localhost:5000/api/Addlaporan', {
+    method: 'POST',
+    body: data,
+  })
+    .then(async (res) => {
+      const responseData = await res.json();
+      if (!res.ok) {
+        throw new Error(responseData.msg || 'Terjadi kesalahan saat mengirim laporan');
+      }
+      alert('Laporan berhasil dikirim!');
+      navigate('/dashboard');
     })
-      .then((res) => res.json())
-      .then(() => {
-        alert('Laporan berhasil dikirim!');
-      })
-      .catch(() => {
-        alert('Gagal mengirim laporan.');
-      });
+    .catch((err) => {
+      console.error('Error:', err);
+      alert('Gagal mengirim laporan: ' + err.message);
+    });
+
   };
 
   return (
@@ -61,6 +98,29 @@ const AddLaporan = ({ fullName = 'Nama User', role = 'Mahasiswa' }) => {
         <h2 className="text-2xl font-bold text-black-600 mb-6 text-center">Form Laporan</h2>
         <form onSubmit={handleSubmit} className="space-y-5">
 
+          {/* Nama dan Role */}
+          <div className="flex justify-between gap-4">
+            <div className="w-1/2">
+              <label className="block font-medium text-gray-700">Nama</label>
+              <input
+                type="text"
+                value={userInfo.fullname}
+                readOnly
+                className="w-full border px-3 py-2 rounded-md bg-gray-100"
+              />
+            </div>
+            <div className="w-1/2">
+              <label className="block font-medium text-gray-700">Role</label>
+              <input
+                type="text"
+                value={userInfo.role}
+                readOnly
+                className="w-full border px-3 py-2 rounded-md bg-gray-100"
+              />
+            </div>
+          </div>
+
+          {/* Tanggal dan Kode */}
           <div>
             <label className="block font-medium text-gray-700">Tanggal</label>
             <input
@@ -83,6 +143,7 @@ const AddLaporan = ({ fullName = 'Nama User', role = 'Mahasiswa' }) => {
             />
           </div>
 
+          {/* Lokasi, Barang, Keterangan */}
           <div>
             <label className="block font-medium text-gray-700">Lokasi</label>
             <input
@@ -119,6 +180,7 @@ const AddLaporan = ({ fullName = 'Nama User', role = 'Mahasiswa' }) => {
             ></textarea>
           </div>
 
+          {/* Upload Foto */}
           <div>
             <label className="block font-medium text-gray-700 mb-1">Upload Foto</label>
             <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-400 rounded-lg cursor-pointer hover:border-blue-500 transition">
@@ -134,29 +196,21 @@ const AddLaporan = ({ fullName = 'Nama User', role = 'Mahasiswa' }) => {
                 className="hidden"
               />
             </label>
+
+            {/* Preview Foto */}
+            {imagePreview && (
+              <div className="mt-4">
+                <p className="text-sm text-gray-600 mb-2">Preview:</p>
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="max-h-48 mx-auto rounded-md"
+                />
+              </div>
+            )}
           </div>
 
-          <div className="flex justify-between gap-4">
-            <div className="w-1/2">
-              <label className="block font-medium text-gray-700">Nama</label>
-              <input
-                type="text"
-                value={fullName}
-                readOnly
-                className="w-full border px-3 py-2 rounded-md bg-gray-100"
-              />
-            </div>
-            <div className="w-1/2">
-              <label className="block font-medium text-gray-700">Role</label>
-              <input
-                type="text"
-                value={role}
-                readOnly
-                className="w-full border px-3 py-2 rounded-md bg-gray-100"
-              />
-            </div>
-          </div>
-
+          {/* Submit */}
           <button
             type="submit"
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md"
